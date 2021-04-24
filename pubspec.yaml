@@ -23,6 +23,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  #root_access: ^1.0.3
   root: ^1.0.0
   
   adobe_xd: ^1.1.0+1
