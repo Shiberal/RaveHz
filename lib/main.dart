@@ -26,6 +26,8 @@ class _MyAppState extends State<MyApp> {
         body: Container(
             width: double.infinity,
             height: double.infinity,
+            padding: const EdgeInsets.only(top: 35),
+            color: const Color(0xFF153640),
             child: Stack(
               children: [
                 title(),
