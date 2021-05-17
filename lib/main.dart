@@ -61,7 +61,7 @@ class _MyAppState extends State<MyApp> {
     }
 
     updateIndicator(String _text){
-      print(_text);
+      
       var a = Icons.radio_button_unchecked;
       if(_hz.contains(_text))
       {
@@ -73,7 +73,7 @@ class _MyAppState extends State<MyApp> {
       return a;
     }
 
-    print("Looping Test");
+    
 
     return MaterialApp(
       home: Scaffold(
@@ -85,7 +85,7 @@ class _MyAppState extends State<MyApp> {
             child: Stack(
               children: [
                 title(),
-                debug('TEST', _rootResult),
+                //debug('TEST', _rootResult),
                 ListView.separated(
                   padding: const EdgeInsets.all(0),
                   reverse: true,
