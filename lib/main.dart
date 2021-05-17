@@ -8,6 +8,7 @@ final List<String> entries = <String>['50', '55', '60'];
 bool _rootStatus = false;
 String _rootResult = "nothing";
 String _hz = '0';
+String _indicator;
 void main() {
   runApp(MyApp());
 }
@@ -40,6 +41,7 @@ class _MyAppState extends State<MyApp> {
           setState(() {
             _hz = res;
             _rootResult = "READ HZ";
+            _indicator = _hz;
           });
           break;
         case 1:
@@ -47,6 +49,7 @@ class _MyAppState extends State<MyApp> {
               cmd: "cat /sys/module/mdss_mdp/parameters/custom_hz");
           setState(() {
             _hz = res;
+            _indicator = _hz;
             command = "UPDATED HZ";
           });
           break;
@@ -79,7 +82,7 @@ class _MyAppState extends State<MyApp> {
                   itemBuilder: (BuildContext context, int index) {
                     return Container(
                       height: 120,
-                      child: Center(child: hzselector(entries[index], com)),
+                      child: Center(child: hzselector(entries[index], com, _indicator)),
                     );
                   },
                   separatorBuilder: (BuildContext context, int index) =>
@@ -189,7 +192,14 @@ Widget debug(String text, String rootmsg) {
   );
 }
 
-Widget hzselector(String text, Function com) {
+Widget hzselector(String text, Function com,_indicator) {
+  var value = false;
+  if(_indicator == text){
+    value = true;
+  }else{
+    value = false;
+  }
+
   return InkWell(
     child: SizedBox(
       width: 402.0,
@@ -225,6 +235,17 @@ Widget hzselector(String text, Function com) {
               ),
               textAlign: TextAlign.left,
             ),
+          ),
+          Pinned.fromSize(
+            bounds: Rect.fromLTWH(-80, 75, 80.0, 70.0),
+            size: Size(20.0, 200.0),
+            pinRight: true,
+            fixedWidth: true,
+            fixedHeight: true,
+            
+            child: Switch(value: value  , onChanged: null,)
+              
+            
           ),
         ],
       ),
