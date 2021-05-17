@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import 'package:adobe_xd/adobe_xd.dart';
 import 'package:flutter/services.dart';
@@ -8,7 +9,6 @@ final List<String> entries = <String>['50', '55', '60'];
 bool _rootStatus = false;
 String _rootResult = "nothing";
 String _hz = '0';
-String _indicator;
 void main() {
   runApp(MyApp());
 }
@@ -41,7 +41,6 @@ class _MyAppState extends State<MyApp> {
           setState(() {
             _hz = res;
             _rootResult = "READ HZ";
-            _indicator = _hz;
           });
           break;
         case 1:
@@ -49,7 +48,6 @@ class _MyAppState extends State<MyApp> {
               cmd: "cat /sys/module/mdss_mdp/parameters/custom_hz");
           setState(() {
             _hz = res;
-            _indicator = _hz;
             command = "UPDATED HZ";
           });
           break;
@@ -62,7 +60,20 @@ class _MyAppState extends State<MyApp> {
       com("cat /sys/module/mdss_mdp/parameters/custom_hz", 0);
     }
 
-    print("TEST");
+    updateIndicator(String _text){
+      print(_text);
+      var a = Icons.radio_button_unchecked;
+      if(_hz.contains(_text))
+      {
+        a = Icons.circle;
+      }else{
+        a = Icons.radio_button_unchecked;
+      }
+
+      return a;
+    }
+
+    print("Looping Test");
 
     return MaterialApp(
       home: Scaffold(
@@ -82,7 +93,7 @@ class _MyAppState extends State<MyApp> {
                   itemBuilder: (BuildContext context, int index) {
                     return Container(
                       height: 120,
-                      child: Center(child: hzselector(entries[index], com, _indicator)),
+                      child: Center(child: hzselector(entries[index], com, updateIndicator)),
                     );
                   },
                   separatorBuilder: (BuildContext context, int index) =>
@@ -104,7 +115,7 @@ Widget title() {
     child: Stack(
       children: <Widget>[
         Pinned.fromSize(
-          bounds: Rect.fromLTWH(0.0, 0.0, 402.0, 208.0),
+          bounds: Rect.fromLTWH(5.0, 0.0, 402.0, 208.0),
           size: Size(402.0, 308.0),
           pinLeft: true,
           pinRight: true,
@@ -192,14 +203,7 @@ Widget debug(String text, String rootmsg) {
   );
 }
 
-Widget hzselector(String text, Function com,_indicator) {
-  var value = false;
-  if(_indicator == text){
-    value = true;
-  }else{
-    value = false;
-  }
-
+Widget hzselector(String text, Function com,_updateIndicator) {
   return InkWell(
     child: SizedBox(
       width: 402.0,
@@ -243,7 +247,7 @@ Widget hzselector(String text, Function com,_indicator) {
             fixedWidth: true,
             fixedHeight: true,
             
-            child: Switch(value: value  , onChanged: null,)
+            child:  Icon( _updateIndicator(text), color: Colors.blue,size: 36.0,)
               
             
           ),
